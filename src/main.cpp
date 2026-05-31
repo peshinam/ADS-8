@@ -14,6 +14,15 @@ int main() {
 
     BST<std::string> tree;
 
+    // Проверяем наличие файла
+    std::ifstream testFile("src/war_peace.txt");
+    if (!testFile) {
+        std::cout << "\nERROR: File 'src/war_peace.txt' not found!" << std::endl;
+        std::cout << "Please place the War and Peace text file at: src/war_peace.txt" << std::endl;
+        return 1;
+    }
+    testFile.close();
+
     // Измеряем время построения дерева
     auto start = std::chrono::high_resolution_clock::now();
 
