@@ -1,9 +1,8 @@
 // Copyright 2024 <Copyright Owner>
 #include "../include/bst.h"
+#include "../test/tests.h"
 
 #include <gtest/gtest.h>
-
-#include <sstream>
 #include <string>
 
 TEST(BSTTest, InsertAndSearch) {
