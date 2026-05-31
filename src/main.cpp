@@ -1,4 +1,4 @@
-#include "alg.h"
+#include "../include/alg.h"
 
 #include <chrono>
 #include <fstream>
