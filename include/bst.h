@@ -1,4 +1,3 @@
-// Copyright 2024 <Copyright Owner>
 #ifndef INCLUDE_BST_H_
 #define INCLUDE_BST_H_
 
@@ -38,7 +37,7 @@ class BST {
     return 1 + std::max(depth(node->left), depth(node->right));
   }
 
-  Node* search(Node* node, const T& value) const {
+  typename BST<T>::Node* search(Node* node, const T& value) const {
     if (node == nullptr || node->data == value) {
       return node;
     }
