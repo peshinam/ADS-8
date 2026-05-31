@@ -2,6 +2,7 @@
 #include "../include/bst.h"
 
 #include <gtest/gtest.h>
+
 #include <sstream>
 #include <string>
 
