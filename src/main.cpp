@@ -1,6 +1,4 @@
-// Copyright 2024 <Copyright Owner>
-#include "../include/main.h"
-#include "../include/alg.h"
+#include "alg.h"
 
 #include <chrono>
 #include <fstream>
