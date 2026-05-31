@@ -1,19 +1,18 @@
-// Copyright 2024 <Copyright Owner>
-#include "../include/alg.h"
+#include "alg.h"
 
+#include <algorithm>
 #include <cctype>
 #include <fstream>
 #include <iostream>
-#include <algorithm>
 #include <string>
 #include <utility>
 #include <vector>
 
 void ensureResultDirectory() {
 #ifdef _WIN32
-  static_cast<void>(system("mkdir result 2>nul"));
+  system("mkdir result 2>nul");
 #else
-  static_cast<void>(system("mkdir -p result"));
+  system("mkdir -p result");
 #endif
 }
 
