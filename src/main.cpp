@@ -1,13 +1,11 @@
 // Copyright 2024 <Copyright Owner>
-#include "../include/bst.h"
+#include "../include/main.h"
+#include "../include/alg.h"
 
 #include <chrono>
 #include <fstream>
 #include <iostream>
 #include <string>
-
-void makeTree(BST<std::string>& tree, const char* filename);
-void printFreq(BST<std::string>& tree);
 
 int main() {
   std::cout << "=== Binary Search Tree for Word Frequency Analysis ===" << std::endl;
