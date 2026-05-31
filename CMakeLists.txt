@@ -1,13 +1,10 @@
-cmake_minimum_required (VERSION 3.10.2)
-project (ADS-8)
+cmake_minimum_required(VERSION 3.10)
+project(WordFrequencyAnalysis)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -g")
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-
-set(tool_dest "bin")
-set(lib_dest "lib")
-set(include_dest "include/")
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_subdirectory(src)
 add_subdirectory(test)
