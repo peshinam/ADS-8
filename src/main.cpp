@@ -1,57 +1,43 @@
+// Copyright 2024 <Copyright Owner>
 #include "../include/bst.h"
+
+#include <chrono>
+#include <fstream>
 #include <iostream>
 #include <string>
-#include <chrono>
 
-// Declaration of functions from alg.cpp
 void makeTree(BST<std::string>& tree, const char* filename);
 void printFreq(BST<std::string>& tree);
 
 int main() {
-    std::cout << "=== Binary Search Tree for Word Frequency Analysis ===" << std::endl;
-    std::cout << "Analyzing 'War and Peace' by Leo Tolstoy" << std::endl;
-    std::cout << "======================================================" << std::endl;
-
-    BST<std::string> tree;
-
-    // Проверяем наличие файла
-    std::ifstream testFile("src/war_peace.txt");
-    if (!testFile) {
-        std::cout << "\nERROR: File 'src/war_peace.txt' not found!" << std::endl;
-        std::cout << "Please place the War and Peace text file at: src/war_peace.txt" << std::endl;
-        return 1;
+  std::cout << "=== Binary Search Tree for Word Frequency Analysis ===" << std::endl;
+  std::cout << "Analyzing 'War and Peace' by Leo Tolstoy" << std::endl;
+  std::cout << "======================================================" << std::endl;
+  BST<std::string> tree;
+  std::ifstream testFile("src/war_peace.txt");
+  if (!testFile) {
+    std::cout << "\nERROR: File 'src/war_peace.txt' not found!" << std::endl;
+    std::cout << "Please place the War and Peace text file at: src/war_peace.txt" << std::endl;
+    return 1;
+  }
+  testFile.close();
+  auto start = std::chrono::high_resolution_clock::now();
+  makeTree(tree, "src/war_peace.txt");
+  auto end = std::chrono::high_resolution_clock::now();
+  auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+  std::cout << "\nTree built successfully!" << std::endl;
+  std::cout << "Time taken: " << duration.count() << " ms" << std::endl;
+  printFreq(tree);
+  std::cout << "\n=== Search Test ===" << std::endl;
+  std::string testWords[] = {"the", "and", "to", "war", "peace", "nonexistent"};
+  for (const auto& word : testWords) {
+    auto result = tree.search(word);
+    if (result != nullptr) {
+      std::cout << "Word '" << word << "' found! Frequency: " << result->count << std::endl;
+    } else {
+      std::cout << "Word '" << word << "' not found!" << std::endl;
     }
-    testFile.close();
-
-    // Измеряем время построения дерева
-    auto start = std::chrono::high_resolution_clock::now();
-
-    // Загружаем и анализируем файл
-    makeTree(tree, "src/war_peace.txt");
-
-    auto end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-
-    std::cout << "\nTree built successfully!" << std::endl;
-    std::cout << "Time taken: " << duration.count() << " ms" << std::endl;
-
-    // Выводим частотный анализ
-    printFreq(tree);
-
-    // Демонстрация работы метода поиска
-    std::cout << "\n=== Search Test ===" << std::endl;
-    std::string testWords[] = {"the", "and", "to", "war", "peace", "nonexistent"};
-
-    for (const auto& word : testWords) {
-        auto result = tree.search(word);
-        if (result != nullptr) {
-            std::cout << "Word '" << word << "' found! Frequency: " << result->count << std::endl;
-        } else {
-            std::cout << "Word '" << word << "' not found!" << std::endl;
-        }
-    }
-
-    std::cout << "\n=== Program completed successfully ===" << std::endl;
-
-    return 0;
+  }
+  std::cout << "\n=== Program completed successfully ===" << std::endl;
+  return 0;
 }
