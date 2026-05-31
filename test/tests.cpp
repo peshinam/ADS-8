@@ -1,4 +1,4 @@
-#include "bst.h"
+#include "../include/bst.h"
 
 #include <gtest/gtest.h>
 #include <string>
