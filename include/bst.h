@@ -1,99 +1,96 @@
-#ifndef BST_H
-#define BST_H
+// Copyright 2024 <Copyright Owner>
+#ifndef INCLUDE_BST_H_
+#define INCLUDE_BST_H_
 
-#include <iostream>
 #include <algorithm>
+#include <utility>
 #include <vector>
 #include <string>
 
 template <typename T>
 class BST {
-private:
-    struct Node {
-        T data;
-        int count;
-        Node* left;
-        Node* right;
+ private:
+  struct Node {
+    T data;
+    int count;
+    Node* left;
+    Node* right;
+    explicit Node(const T& value) : data(value), count(1), left(nullptr), right(nullptr) {}
+  };
+  Node* root;
 
-        Node(const T& value) : data(value), count(1), left(nullptr), right(nullptr) {}
-    };
-
-    Node* root;
-
-    void insert(Node*& node, const T& value) {
-        if (node == nullptr) {
-            node = new Node(value);
-            return;
-        }
-
-        if (value < node->data) {
-            insert(node->left, value);
-        } else if (value > node->data) {
-            insert(node->right, value);
-        } else {
-            node->count++;
-        }
+  void insert(Node*& node, const T& value) {
+    if (node == nullptr) {
+      node = new Node(value);
+      return;
     }
-
-    int depth(Node* node) const {
-        if (node == nullptr) return 0;
-        return 1 + std::max(depth(node->left), depth(node->right));
+    if (value < node->data) {
+      insert(node->left, value);
+    } else if (value > node->data) {
+      insert(node->right, value);
+    } else {
+      node->count++;
     }
+  }
 
-    Node* search(Node* node, const T& value) const {
-        if (node == nullptr || node->data == value) {
-            return node;
-        }
+  int depth(Node* node) const {
+    if (node == nullptr) return 0;
+    return 1 + std::max(depth(node->left), depth(node->right));
+  }
 
-        if (value < node->data) {
-            return search(node->left, value);
-        } else {
-            return search(node->right, value);
-        }
+  Node* search(Node* node, const T& value) const {
+    if (node == nullptr || node->data == value) {
+      return node;
     }
-
-    void inorderCollect(Node* node, std::vector<std::pair<T, int>>& nodes) const {
-        if (node == nullptr) return;
-        inorderCollect(node->left, nodes);
-        nodes.push_back({node->data, node->count});
-        inorderCollect(node->right, nodes);
+    if (value < node->data) {
+      return search(node->left, value);
+    } else {
+      return search(node->right, value);
     }
+  }
 
-    void clear(Node* node) {
-        if (node == nullptr) return;
-        clear(node->left);
-        clear(node->right);
-        delete node;
-    }
+  void inorderCollect(Node* node, std::vector<std::pair<T, int>>& nodes) const {
+    if (node == nullptr) return;
+    inorderCollect(node->left, nodes);
+    nodes.push_back(std::make_pair(node->data, node->count));
+    inorderCollect(node->right, nodes);
+  }
 
-public:
-    BST() : root(nullptr) {}
+  void clear(Node* node) {
+    if (node == nullptr) return;
+    clear(node->left);
+    clear(node->right);
+    delete node;
+  }
 
-    ~BST() {
-        clear(root);
-    }
+ public:
+  BST() : root(nullptr) {}
 
-    void insert(const T& value) {
-        insert(root, value);
-    }
+  ~BST() {
+    clear(root);
+  }
 
-    int depth() const {
-        return depth(root);
-    }
+  void insert(const T& value) {
+    insert(root, value);
+  }
 
-    Node* search(const T& value) const {
-        return search(root, value);
-    }
+  int depth() const {
+    return depth(root);
+  }
 
-    std::vector<std::pair<T, int>> getNodesSortedByValue() const {
-        std::vector<std::pair<T, int>> nodes;
-        inorderCollect(root, nodes);
-        return nodes;
-    }
+  Node* search(const T& value) const {
+    return search(root, value);
+  }
 
-    bool isEmpty() const {
-        return root == nullptr;
-    }
+  std::vector<std::pair<T, int>> getNodesSortedByValue() const {
+    std::vector<std::pair<T, int>> nodes;
+    inorderCollect(root, nodes);
+    return nodes;
+  }
+
+  bool isEmpty() const {
+    return root == nullptr;
+  }
 };
 
-#endif
+#endif  // INCLUDE_BST_H_
