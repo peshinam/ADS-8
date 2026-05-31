@@ -1,10 +1,10 @@
 // Copyright 2024 <Copyright Owner>
-#include "../include/bst.h"
+#include "../include/alg.h"
 
-#include <algorithm>
 #include <cctype>
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 #include <string>
 #include <utility>
 #include <vector>
