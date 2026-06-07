@@ -79,9 +79,15 @@ class BST {
         return getDepth(root);
     }
 
-    // Возвращает указатель на узел (как ожидают тесты)
+    // Возвращает указатель на узел (для тестов)
     Node* search(const T& value) const {
         return searchNode(root, value);
+    }
+
+    // Возвращает количество вхождений (для alg.cpp)
+    int getCount(const T& value) const {
+        Node* node = searchNode(root, value);
+        return node != nullptr ? node->count : 0;
     }
 
     bool isEmpty() const {
