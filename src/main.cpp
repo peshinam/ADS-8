@@ -1,39 +1,42 @@
-#include "../include/alg.h"
-
-#include <chrono>
+// Copyright 2021 NNTU-CS
 #include <fstream>
 #include <iostream>
+#include <vector>
 #include <string>
+#include <cctype>
+#include <algorithm>
+#include  "bst.h"
 
-int main() {
-  std::cout << "=== Binary Search Tree for Word Frequency Analysis ===" << std::endl;
-  std::cout << "Analyzing 'War and Peace' by Leo Tolstoy" << std::endl;
-  std::cout << "======================================================" << std::endl;
-  BST<std::string> tree;
-  std::ifstream testFile("src/war_peace.txt");
-  if (!testFile) {
-    std::cout << "\nERROR: File 'src/war_peace.txt' not found!" << std::endl;
-    std::cout << "Please place the War and Peace text file at: src/war_peace.txt" << std::endl;
-    return 1;
-  }
-  testFile.close();
-  auto start = std::chrono::high_resolution_clock::now();
-  makeTree(tree, "src/war_peace.txt");
-  auto end = std::chrono::high_resolution_clock::now();
-  auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-  std::cout << "\nTree built successfully!" << std::endl;
-  std::cout << "Time taken: " << duration.count() << " ms" << std::endl;
-  printFreq(tree);
-  std::cout << "\n=== Search Test ===" << std::endl;
-  std::string testWords[] = {"the", "and", "to", "war", "peace", "nonexistent"};
-  for (const auto& word : testWords) {
-    auto result = tree.search(word);
-    if (result != nullptr) {
-      std::cout << "Word '" << word << "' found! Frequency: " << result->count << std::endl;
-    } else {
-      std::cout << "Word '" << word << "' not found!" << std::endl;
+void makeTree(BST<std::string>& tree, const char* filename) {
+  std::ifstream file(filename);
+    std::string currentWord = "";
+    int ch;
+    while ((ch = file.get()) != EOF) {
+        if (std::isalpha(ch)) {
+            currentWord += std::tolower(ch);
+        } else {
+            if (!currentWord.empty()) {
+                tree.insert(currentWord);
+                currentWord = "";
+            }
+        }
     }
-  }
-  std::cout << "\n=== Program completed successfully ===" << std::endl;
-  return 0;
+    if (!currentWord.empty()) {
+        tree.insert(currentWord);
+    }
+    file.close();
+}
+bool compareNodes(const BST<std::string>::Node* a, const BST<std::string>::Node* b) {
+    if (a->count != b->count) return a->count > b->count;
+    return a->key < b->key;
+}
+void printFreq(BST<std::string>& tree) {
+    std::vector<BST<std::string>::Node*> wordList = tree.getAllNodes();
+    std::sort(wordList.begin(), wordList.end(), compareNodes);
+    std::ofstream outFile("../result/freq.txt");
+    for (size_t i = 0; i < wordList.size(); ++i) {
+        std::cout << wordList[i]->key << " : " << wordList[i]->count << std::endl;
+        outFile << wordList[i]->key << " : " << wordList[i]->count << "\n";
+    }
+    outFile.close();
 }
